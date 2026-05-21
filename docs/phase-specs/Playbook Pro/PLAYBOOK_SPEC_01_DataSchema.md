@@ -5,6 +5,8 @@
 **Version:** 1.0
 **Dependencies:** Module 00 (Overview)
 **Agent task:** Set up Supabase project, run all migrations, seed library plays, verify RLS
+**Status:** ✅ SQL extracted — 7 migration files in `supabase/migrations/`, combined `supabase/schema.sql`
+**Next step:** Create Supabase project, paste `supabase/schema.sql` into SQL Editor, update `.env` with keys
 
 ---
 

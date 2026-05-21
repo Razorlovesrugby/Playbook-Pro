@@ -3,7 +3,8 @@
 **Product:** Playbook
 **Version:** 1.0
 **Date:** 2026-05-21
-**Status:** Ready to Build — Agentic Development
+**Last built:** 2026-05-21 (Spec 02)
+**Status:** In Progress
 
 ---
 
@@ -17,19 +18,19 @@ It is architecturally separate from ARM15. ARM15 differentiators (branching node
 
 ## Module Map
 
-| File | Module | What the AI builds |
-|---|---|---|
-| `PLAYBOOK_SPEC_00_Overview.md` | Product Overview | Context, stack decisions, core concepts, user types |
-| `PLAYBOOK_SPEC_01_DataSchema.md` | Data Schema | Supabase tables, Play JSON, RLS policies, seeded library |
-| `PLAYBOOK_SPEC_02_CanvasCore.md` | Canvas Core | Konva setup, pitch rendering, player nodes, line drawing |
-| `PLAYBOOK_SPEC_03_AnimationEngine.md` | Animation Engine | Step animation, tweening, speed control, Overview vs Step-by-Step |
-| `PLAYBOOK_SPEC_04_PlayViewer.md` | Play Viewer | Viewer page (both modes), controls, info panels, share |
-| `PLAYBOOK_SPEC_05_PlayEditor.md` | Play Editor | Editor page, all draw tools, templates, step management |
-| `PLAYBOOK_SPEC_06_PlayLibrary.md` | Play Library | Public library, filters, play cards, search |
-| `PLAYBOOK_SPEC_07_Auth.md` | Auth & Share | Magic link auth, public play URLs, save/share flow |
-| `PLAYBOOK_SPEC_08_TeamDashboard.md` | Team Dashboard | Team creation, playbook publishing, player access |
-| `PLAYBOOK_SPEC_09_Pricing.md` | Pricing & Paywall | Free/Team/Club tiers, Season Pass, Paddle integration |
-| `PLAYBOOK_SPEC_10_EdgeCases.md` | Edge Cases | All failure states, error handling, cross-cutting concerns |
+| File | Module | Status | What the AI builds |
+|---|---|---|---|---|
+| `PLAYBOOK_SPEC_00_Overview.md` | Product Overview | ✅ Reference | Context, stack decisions, core concepts, user types |
+| `PLAYBOOK_SPEC_01_DataSchema.md` | Data Schema | ✅ SQL ready → `supabase/` | Supabase tables, Play JSON, RLS policies, seeded library |
+| `PLAYBOOK_SPEC_02_CanvasCore.md` | Canvas Core | ✅ Built | 4-layer Konva stage, pitch, nodes, lines, annotations, responsive |
+| `PLAYBOOK_SPEC_03_AnimationEngine.md` | Animation Engine | ⏳ Next up | Step animation, tweening, speed control, Overview vs Step-by-Step |
+| `PLAYBOOK_SPEC_04_PlayViewer.md` | Play Viewer | 🔜 Pending | Viewer page (both modes), controls, info panels, share |
+| `PLAYBOOK_SPEC_05_PlayEditor.md` | Play Editor | 🔜 Pending | Editor page, all draw tools, templates, step management |
+| `PLAYBOOK_SPEC_06_PlayLibrary.md` | Play Library | 🔜 Pending | Public library, filters, play cards, search |
+| `PLAYBOOK_SPEC_07_Auth.md` | Auth & Share | 🔜 Pending | Magic link auth, public play URLs, save/share flow |
+| `PLAYBOOK_SPEC_08_TeamDashboard.md` | Team Dashboard | 🔜 Pending | Team creation, playbook publishing, player access |
+| `PLAYBOOK_SPEC_09_Pricing.md` | Pricing & Paywall | 🔜 Pending | Free/Team/Club tiers, Season Pass, Paddle integration |
+| `PLAYBOOK_SPEC_10_EdgeCases.md` | Edge Cases | 🔜 Pending | All failure states, error handling, cross-cutting concerns |
 
 ---
 
@@ -111,3 +112,12 @@ Do NOT build these in V1:
 3. **Mobile-first viewer.** Coaches edit on desktop. Players watch on phone.
 4. **JSON is the truth.** One Play JSON object drives everything — editor, viewer, share link.
 5. **Rugby Everest parity first.** Match every visible feature before adding anything new.
+
+---
+
+## Build Log
+
+| Date | Spec | Action | Notes |
+|---|---|---|---|
+| 2026-05-21 | 01 — Data Schema | SQL extracted | 7 migration files saved to `supabase/migrations/`, combined `supabase/schema.sql`, `.env.example` created. Pending: user creates Supabase project and pastes schema. |
+| 2026-05-21 | 02 — Canvas Core | Built | 10 source files. 4-layer Konva stage (Pitch, Line, Node, Annotation). Coordinate mapping, responsive ResizeObserver. Vite + React 19 + TS 5.8. tsc + vite build clean. |
