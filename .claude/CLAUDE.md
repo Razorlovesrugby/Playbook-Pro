@@ -4,7 +4,7 @@
 
 Playbook is a web-based animated rugby play builder and shared library.
 It is a feature-for-feature rebuild of Rugby Everest (rugbyeverest.app)
-using React + Konva.js + Supabase + Paddle.
+using React + Konva.js + Supabase. Everything is free — no paywalls.
 
 Coaches draw plays on a tactical canvas, animate them step-by-step, and share
 them with players via a link. Players watch in their browser — no app, no login.
@@ -39,7 +39,6 @@ One Play JSON object drives the editor, the viewer, and the share link.
 | Canvas      | Konva.js + react-konva                               |
 | UI          | shadcn/ui + Tailwind CSS                             |
 | Backend/DB  | Supabase (Postgres, RLS, Magic Link, Edge Functions) |
-| Payments    | Paddle.com (Merchant of Record)                      |
 | Deployment  | Vercel                                                |
 | Language    | TypeScript, strict mode. No `any` without comment.   |
 
@@ -54,7 +53,6 @@ src/
   library/         # Play library (/moves), filter bar, card grid, search
   auth/            # Supabase magic link, session, callback
   teams/           # Team dashboard (coach) + team playbook (player)
-  pricing/         # Pricing page, Paddle checkout, plan enforcement
   shared/          # shadcn/ui wrappers, hooks, types, Play JSON types, utils
 ```
 
@@ -71,7 +69,6 @@ Build in this sequence. Each module depends on the ones above it.
 05 PlayEditor     ← depends on CanvasCore + Auth + DataSchema.
 06 PlayLibrary    ← depends on PlayViewer + DataSchema.
 08 TeamDashboard  ← depends on Auth + PlayViewer.
-09 Pricing        ← depends on TeamDashboard + Auth.
 10 EdgeCases      ← cross-cutting: implement inline as you build each module.
 ```
 
@@ -93,11 +90,8 @@ building any module.
 - [ ] Save plays to My Plays (private by default)
 - [ ] Shareable public URLs (no auth to view)
 - [ ] Team dashboard + publish to team playbook
-- [ ] Free / Team / Club pricing tiers (£0 / £119/yr / £369/yr)
-- [ ] Season Pass model (pay 8 months, keep 12)
-- [ ] Paddle.com payment integration
+- [ ] No paywalls. No pricing tiers. Everything is free for everyone.
 - [ ] 6 seeded library plays across categories
-- [ ] 3-play save limit on Free tier (enforced at app layer)
 
 ## V2 Scope (ARM15 Differentiators — Do NOT Build in V1)
 
