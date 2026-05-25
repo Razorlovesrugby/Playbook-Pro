@@ -8,14 +8,17 @@ interface NodeLayerProps {
   width: number;
   height: number;
   isEditor?: boolean;
+  isDraggable?: boolean;
+  selectedPlayerId?: string | null;
   onNodeClick?: (playerId: string) => void;
   onNodeDrag?: (playerId: string, x: number, y: number) => void;
 }
 
 export function NodeLayer({
   step, zone, width, height,
-  isEditor = false, onNodeClick, onNodeDrag,
+  isEditor = false, isDraggable, selectedPlayerId, onNodeClick, onNodeDrag,
 }: NodeLayerProps) {
+  const canDrag = isDraggable ?? isEditor;
   // Node radius scales with canvas width (2.4% baseline → 1.2% radius)
   const NODE_RADIUS = Math.max(10, width * 0.012);
 
@@ -24,21 +27,36 @@ export function NodeLayer({
       {step.players.map(player => {
         const { px, py } = gridToPixel(player.x, player.y, zone, width, height);
 
+        const isSelected = selectedPlayerId === player.id;
+
         // Ball carrier (attack only) — yellow oval
         if (player.has_ball && player.team === 'attack') {
           return (
             <Group
               key={player.id}
+              id={player.id}
+              name={`player-${player.id}`}
               x={px}
               y={py}
               onClick={() => onNodeClick?.(player.id)}
               onTap={() => onNodeClick?.(player.id)}
-              draggable={isEditor}
+              draggable={canDrag}
               onDragEnd={e => {
                 const g = pixelToGrid(e.target.x(), e.target.y(), zone, width, height);
                 onNodeDrag?.(player.id, g.gridX, g.gridY);
               }}
             >
+              {isSelected && (
+                <Ellipse
+                  radiusX={NODE_RADIUS * 2.0}
+                  radiusY={NODE_RADIUS * 1.4}
+                  fill="transparent"
+                  stroke="white"
+                  strokeWidth={2}
+                  dash={[4, 3]}
+                  listening={false}
+                />
+              )}
               <Ellipse
                 radiusX={NODE_RADIUS * 1.6}
                 radiusY={NODE_RADIUS}
@@ -66,16 +84,28 @@ export function NodeLayer({
         return (
           <Group
             key={player.id}
+            id={player.id}
+            name={`player-${player.id}`}
             x={px}
             y={py}
             onClick={() => onNodeClick?.(player.id)}
             onTap={() => onNodeClick?.(player.id)}
-            draggable={isEditor}
+            draggable={canDrag}
             onDragEnd={e => {
               const g = pixelToGrid(e.target.x(), e.target.y(), zone, width, height);
               onNodeDrag?.(player.id, g.gridX, g.gridY);
             }}
           >
+            {isSelected && (
+              <Circle
+                radius={NODE_RADIUS * 1.6}
+                fill="transparent"
+                stroke="white"
+                strokeWidth={2}
+                dash={[4, 3]}
+                listening={false}
+              />
+            )}
             <Circle
               radius={NODE_RADIUS}
               fill={isAttack ? '#6B7280' : '#EF4444'}

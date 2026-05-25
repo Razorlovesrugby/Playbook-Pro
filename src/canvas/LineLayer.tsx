@@ -8,15 +8,16 @@ interface LineLayerProps {
   width: number;
   height: number;
   activeOptions: OptionNumber[];
+  onLineClick?: (lineId: string) => void;
 }
 
-export function LineLayer({ step, zone, width, height, activeOptions }: LineLayerProps) {
+export function LineLayer({ step, zone, width, height, activeOptions, onLineClick }: LineLayerProps) {
   const visibleLines = step.lines.filter(l =>
     activeOptions.includes(l.option as OptionNumber)
   );
 
   return (
-    <Layer listening={false}>
+    <Layer listening={!!onLineClick}>
       {visibleLines.map(line => {
         const fromPlayer = step.players.find(p => p.id === line.from_player_id);
         if (!fromPlayer) return null;
@@ -28,6 +29,8 @@ export function LineLayer({ step, zone, width, height, activeOptions }: LineLaye
         return (
           <Arrow
             key={line.id}
+            id={line.id}
+            name={`line-${line.id}`}
             points={[from.px, from.py, to.px, to.py]}
             stroke={colour}
             strokeWidth={2.5}
@@ -36,7 +39,10 @@ export function LineLayer({ step, zone, width, height, activeOptions }: LineLaye
             pointerLength={8}
             pointerWidth={6}
             lineCap="round"
-            listening={false}
+            listening={!!onLineClick}
+            hitStrokeWidth={12}
+            onClick={onLineClick ? () => onLineClick(line.id) : undefined}
+            onTap={onLineClick ? () => onLineClick(line.id) : undefined}
           />
         );
       })}
