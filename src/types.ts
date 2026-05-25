@@ -69,6 +69,17 @@ export interface StepData {
   description?: string;
 }
 
+// ─── Info Sections (coaching notes embedded in play_data) ──────────────────
+
+export interface PlayInfo {
+  what_is_it?: string;
+  when_to_use?: string;
+  why_it_works?: string;
+  key_positions?: string;
+  options_alternatives?: string;
+  common_mistakes?: string;
+}
+
 // ─── Play ──────────────────────────────────────────────────────────────────
 
 export interface PlayData {
@@ -76,6 +87,7 @@ export interface PlayData {
   title: string;
   zone: FieldZone;
   steps: StepData[];
+  info?: PlayInfo;
 }
 
 // ─── Zone Viewport ─────────────────────────────────────────────────────────
