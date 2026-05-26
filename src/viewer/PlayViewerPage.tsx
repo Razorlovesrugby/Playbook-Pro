@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Component, useEffect, useState, type ReactNode } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import type { OptionNumber, StepData } from '../types';
 import type { PlayRecord } from '../shared/types';
@@ -13,6 +13,21 @@ import { Badges } from './Badges';
 import { ShareButton } from './ShareButton';
 import { NotFoundPage } from './NotFoundPage';
 import { Navbar, SignInModal } from '../auth';
+
+class CanvasErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
+  state = { hasError: false };
+  static getDerivedStateFromError() { return { hasError: true }; }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="w-full rounded-lg bg-white/5 flex items-center justify-center" style={{ minHeight: 240 }}>
+          <p className="text-white/40 text-sm">Canvas could not be displayed.</p>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 // ─── Skeleton ──────────────────────────────────────────────────────────────
 
@@ -262,18 +277,20 @@ export function PlayViewerPage() {
           <div className="md:col-span-3">
             <ModeTabs mode={viewMode} onChange={handleModeChange} />
 
-            <ViewerCanvas
-              play={play}
-              zone={play.zone}
-              mode={viewMode}
-              speed={anim.speed}
-              currentStep={anim.currentStep}
-              isPlaying={anim.isPlaying}
-              activeOptions={anim.activeOptions}
-              onStepChange={anim.setCurrentStep}
-              onPlayingChange={handlePlayingChange}
-              onStartPlay={handleStartPlay}
-            />
+            <CanvasErrorBoundary>
+              <ViewerCanvas
+                play={play}
+                zone={play.zone ?? 'full'}
+                mode={viewMode}
+                speed={anim.speed}
+                currentStep={anim.currentStep}
+                isPlaying={anim.isPlaying}
+                activeOptions={anim.activeOptions}
+                onStepChange={anim.setCurrentStep}
+                onPlayingChange={handlePlayingChange}
+                onStartPlay={handleStartPlay}
+              />
+            </CanvasErrorBoundary>
 
             <StepControls
               currentStep={anim.currentStep}

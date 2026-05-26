@@ -10,6 +10,20 @@ export function AuthCallback() {
       navigate('/auth', { replace: true });
       return;
     }
+
+    // Supabase appends error info as hash fragments when a link is invalid/expired.
+    const hashParams = new URLSearchParams(window.location.hash.slice(1));
+    const hashError = hashParams.get('error');
+    if (hashError) {
+      const code = hashParams.get('error_code') ?? '';
+      const raw  = hashParams.get('error_description') ?? 'Sign-in failed.';
+      const msg  = code === 'otp_expired'
+        ? 'Your sign-in link has expired. Please request a new one.'
+        : raw.replace(/\+/g, ' ');
+      navigate(`/auth?error=${encodeURIComponent(msg)}`, { replace: true });
+      return;
+    }
+
     const client = supabase;
 
     function goToReturnUrl() {
