@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { PlayViewerPage } from './viewer';
 import { EditorPage } from './editor';
 import { LibraryPage } from './library';
+import { AuthPage, AuthCallback, MyPlaysPage, ProtectedRoute } from './auth';
 
 export function App() {
   return (
@@ -11,7 +12,9 @@ export function App() {
       <Route path="/moves/:slug"    element={<PlayViewerPage />} />
       <Route path="/editor"         element={<EditorPage />} />
       <Route path="/editor/:playId" element={<EditorPage />} />
-      <Route path="/my-plays"       element={<Navigate to="/moves" replace />} />
+      <Route path="/auth"           element={<AuthPage />} />
+      <Route path="/auth/callback"  element={<AuthCallback />} />
+      <Route path="/my-plays"       element={<ProtectedRoute><MyPlaysPage /></ProtectedRoute>} />
       <Route path="/team"           element={<Navigate to="/moves" replace />} />
       <Route path="*"               element={<Navigate to="/moves" replace />} />
     </Routes>

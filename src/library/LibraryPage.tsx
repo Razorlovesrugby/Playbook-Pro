@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../shared/supabase';
 import type { PlayRecord } from '../shared/types';
+import { Navbar } from '../auth';
 import { FilterBar, type LibraryFilters } from './FilterBar';
 import { PlayCard } from './PlayCard';
 
@@ -113,6 +114,7 @@ export function LibraryPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0f1a] text-white">
+      <Navbar />
       <div className="max-w-6xl mx-auto px-4 py-12">
         <div className="mb-8">
           <p className="text-white/30 text-xs uppercase tracking-widest mb-2">MOVES</p>
