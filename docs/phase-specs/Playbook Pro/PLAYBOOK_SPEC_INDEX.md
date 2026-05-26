@@ -3,7 +3,7 @@
 **Product:** Playbook
 **Version:** 1.0
 **Date:** 2026-05-21
-**Last built:** 2026-05-26 (Spec 07)
+**Last built:** 2026-05-26 (Spec 08)
 **Status:** In Progress
 
 ---
@@ -28,7 +28,7 @@ It is architecturally separate from ARM15. ARM15 differentiators (branching node
 | `PLAYBOOK_SPEC_05_PlayEditor.md` | Play Editor | ✅ Built | Editor page, all draw tools, templates, step management |
 | `PLAYBOOK_SPEC_06_PlayLibrary.md` | Play Library | ✅ Built | Public library, filters, play cards, search |
 | `PLAYBOOK_SPEC_07_Auth.md` | Auth & Share | ✅ Built — needs Supabase email OTP enabled | Magic link auth, public play URLs, save/share flow |
-| `PLAYBOOK_SPEC_08_TeamDashboard.md` | Team Dashboard | 🔜 Pending | Team creation, playbook publishing, player access |
+| `PLAYBOOK_SPEC_08_TeamDashboard.md` | Team Dashboard | ✅ Built | Team creation, playbook publishing, player access |
 | `PLAYBOOK_SPEC_09_Pricing.md` | Pricing & Paywall | 🔜 Pending | Free/Team/Club tiers, Season Pass, Paddle integration |
 | `PLAYBOOK_SPEC_10_EdgeCases.md` | Edge Cases | 🔜 Pending | All failure states, error handling, cross-cutting concerns |
 
@@ -63,6 +63,7 @@ supabase/migrations/004_slug_function.sql
 supabase/migrations/005_rls_policies.sql
 supabase/migrations/006_get_user_plan.sql
 supabase/migrations/007_seed_library_plays.sql
+supabase/migrations/008_team_rls.sql
 ```
 
 After running migrations, the seeded library plays will be live and `/moves/:slug` will serve real data.
@@ -113,7 +114,7 @@ Until this is done, `/auth` renders but submitting an email shows "Sign-in is te
 - [x] Templates (Scrum L/C/R, Lineout L/R, Kickoffs, 22m Drop, Blank)
 - [x] Magic link auth (no Google, no password)
 - [x] Save plays to My Plays
-- [ ] Team dashboard + publish to team playbook
+- [x] Team dashboard + publish to team playbook
 - [ ] Free / Team / Club pricing tiers
 - [ ] Season Pass model (pay 8 months, keep 12)
 - [ ] Paddle.com payments
@@ -172,3 +173,4 @@ Do NOT build these in V1:
 | 2026-05-26 | 05 — Play Editor | Built | `src/editor/` — `/editor` and `/editor/:playId` routes. `EditorPage`, `EditorCanvas`, `EditorHeader`, `ToolBar` (Run/Pass/Arrow/Circle/Text/Target/Eraser), `StepTabs`, `ZoneSelector`, `TemplateSelector`, `PlayerPanel`, `OptionSelector`, `PlayInfoEditor`, `PreviewModal`. `useEditorState` hook manages play JSON. Templates for Scrum L/C/R, Lineout L/R, Kickoffs, 22m Drop, Blank. |
 | 2026-05-26 | 06 — Play Library | Built | `src/library/` — `/moves` route replaces `/` as root. `LibraryPage` with Supabase data fetch + filters. `FilterBar` (difficulty/category chips, debounced search). `PlayCard` with hover overlay. `PlayThumbnail` (static Konva render of first step, ThumbnailErrorBoundary). `SkeletonCard` loading state. Three empty states: no results, no search match, library empty. 2-col mobile / 3-col desktop grid. `useDebounce` added to shared hooks. |
 | 2026-05-26 | 07 — Auth & Share | Built | `src/auth/` — `useAuth` hook (reactive session), `sendMagicLink`/`signOut` helpers. `/auth` (`AuthPage` email form + sent confirmation), `/auth/callback` (`AuthCallback` token exchange + return-URL redirect). `SignInModal` (inline, non-blocking, `returnTo` prop). `ProtectedRoute` wrapper (redirects anon → `/auth`, stores `auth_return_to`). Shared `Navbar` with live auth state (Sign in/out, conditional My Plays/Team). `MyPlaysPage` at protected `/my-plays` lists user's saved drafts (cards link to `/editor/:id`). Viewer's stub Navbar + SignInModal replaced with real ones. **Needs Supabase email OTP / magic link enabled + redirect URL `{origin}/auth/callback` configured.** Pricing/tutorial nav links omitted (free product, no paywalls). |
+| 2026-05-26 | 08 — Team Dashboard | Built | `src/teams/` — `TeamPage` (protected `/team`): shows `TeamSetup` for new coaches, `TeamDashboard` after creation. `TeamDashboard`: plays list with `TeamPlayRow` (up/down reorder, remove), `AddPlaySheet` (pick from My Plays, filters already-added), `TeamLinkButton` (clipboard copy), team name settings. `TeamPlaybookPage` (public `/team/:teamSlug`): player-facing grid using `PlayCard`. `teamApi.ts`: `createTeam`, `loadTeamDashboard`, `loadTeamPlaybook`, `publishPlayToTeam` (auto-publishes play), `removePlayFromTeam`, `reorderTeamPlays`, `loadMyPlaysForTeam`. `supabase/migrations/008_team_rls.sql` adds missing INSERT/UPDATE policies for `teams` and `team_coaches`. Plan limits omitted (free product, unlimited plays). Club-plan add-coach feature omitted (no paid tiers). |
