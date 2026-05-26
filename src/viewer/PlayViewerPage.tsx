@@ -12,6 +12,7 @@ import { InfoPanels } from './InfoPanels';
 import { Badges } from './Badges';
 import { ShareButton } from './ShareButton';
 import { NotFoundPage } from './NotFoundPage';
+import { Navbar, SignInModal } from '../auth';
 
 // ─── Skeleton ──────────────────────────────────────────────────────────────
 
@@ -31,31 +32,6 @@ function ViewerSkeleton() {
           <div className="skeleton h-10 w-full" />
           <div className="skeleton h-10 w-full" />
         </div>
-      </div>
-    </div>
-  );
-}
-
-// ─── Sign-in modal (stub — wired up properly in Module 07) ─────────────────
-
-function SignInModal({ onClose }: { onClose: () => void }) {
-  return (
-    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-      <div className="bg-[#111827] border border-white/10 rounded-xl p-6 w-full max-w-sm">
-        <h2 className="text-white font-semibold text-lg mb-2">Sign in to save plays</h2>
-        <p className="text-white/60 text-sm mb-6">
-          Create a free account to save plays to My Plays, edit them, and share with your team.
-        </p>
-        {/* Auth wired up in Module 07 */}
-        <p className="text-white/40 text-xs text-center mb-4">
-          Magic link auth — coming in Module 07
-        </p>
-        <button
-          onClick={onClose}
-          className="w-full py-2 border border-white/20 rounded text-white/60 text-sm hover:text-white"
-        >
-          Close
-        </button>
       </div>
     </div>
   );
@@ -135,35 +111,12 @@ function UseThisPlayButton({ play }: UseThisPlayButtonProps) {
       >
         {saved ? '✓ Saved to My Plays' : loading ? 'Saving…' : 'Use this play'}
       </button>
-      {showSignIn && <SignInModal onClose={() => setShowSignIn(false)} />}
+      <SignInModal
+        isOpen={showSignIn}
+        onClose={() => setShowSignIn(false)}
+        returnTo={`/moves/${play.slug}`}
+      />
     </>
-  );
-}
-
-// ─── Navbar ────────────────────────────────────────────────────────────────
-
-function Navbar() {
-  return (
-    <nav className="border-b border-white/10 px-4 py-3">
-      <div className="max-w-6xl mx-auto flex items-center justify-between">
-        <Link to="/" className="text-white font-bold text-lg tracking-tight">
-          Playbook
-        </Link>
-        <div className="hidden md:flex items-center gap-6 text-sm text-white/60">
-          <Link to="/moves" className="hover:text-white transition-colors">Moves</Link>
-          <Link to="/editor" className="hover:text-white transition-colors">Editor</Link>
-          <Link to="/my-plays" className="hover:text-white transition-colors">My Plays</Link>
-          <Link to="/team" className="hover:text-white transition-colors">Team</Link>
-          <button className="px-3 py-1 border border-white/20 rounded text-white/70 hover:text-white transition-colors">
-            Sign in
-          </button>
-        </div>
-        {/* Mobile: menu icon only */}
-        <button className="md:hidden text-white/60 hover:text-white p-2">
-          ☰
-        </button>
-      </div>
-    </nav>
   );
 }
 
