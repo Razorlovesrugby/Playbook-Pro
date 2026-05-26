@@ -3,7 +3,7 @@
 **Product:** Playbook
 **Version:** 1.0
 **Date:** 2026-05-21
-**Last built:** 2026-05-25 (Spec 04)
+**Last built:** 2026-05-26 (Spec 06)
 **Status:** In Progress
 
 ---
@@ -25,8 +25,8 @@ It is architecturally separate from ARM15. ARM15 differentiators (branching node
 | `PLAYBOOK_SPEC_02_CanvasCore.md` | Canvas Core | ✅ Built | 4-layer Konva stage, pitch, nodes, lines, annotations, responsive |
 | `PLAYBOOK_SPEC_03_AnimationEngine.md` | Animation Engine | ✅ Built | usePlayAnimation hook, AnimatedCanvas, SpeedControl, line draw, ball transfer |
 | `PLAYBOOK_SPEC_04_PlayViewer.md` | Play Viewer | ✅ Built — needs Supabase to serve real plays | /moves/:slug page, both modes, controls, info panels, share |
-| `PLAYBOOK_SPEC_05_PlayEditor.md` | Play Editor | ⏳ Next up | Editor page, all draw tools, templates, step management |
-| `PLAYBOOK_SPEC_06_PlayLibrary.md` | Play Library | 🔜 Pending | Public library, filters, play cards, search |
+| `PLAYBOOK_SPEC_05_PlayEditor.md` | Play Editor | ✅ Built | Editor page, all draw tools, templates, step management |
+| `PLAYBOOK_SPEC_06_PlayLibrary.md` | Play Library | ✅ Built | Public library, filters, play cards, search |
 | `PLAYBOOK_SPEC_07_Auth.md` | Auth & Share | 🔜 Pending | Magic link auth, public play URLs, save/share flow |
 | `PLAYBOOK_SPEC_08_TeamDashboard.md` | Team Dashboard | 🔜 Pending | Team creation, playbook publishing, player access |
 | `PLAYBOOK_SPEC_09_Pricing.md` | Pricing & Paywall | 🔜 Pending | Free/Team/Club tiers, Season Pass, Paddle integration |
@@ -95,10 +95,10 @@ VITE_SUPABASE_ANON_KEY=your-anon-key-here
 - [x] 3-option colour system per step (Yellow=Option 1, Blue=Option 2, Orange=Option 3)
 - [x] Option card filtering in Step by Step mode
 - [x] Shareable public URLs (no auth to view)
-- [ ] Public play library with difficulty + category filters
-- [ ] Play editor with all draw tools
-- [ ] Field zone selector (Full Field, Opp 22, Opp Half, Own Half, Own 22, Lineout L/R)
-- [ ] Templates (Scrum L/C/R, Lineout L/R, Kickoffs, 22m Drop, Blank)
+- [x] Public play library with difficulty + category filters
+- [x] Play editor with all draw tools
+- [x] Field zone selector (Full Field, Opp 22, Opp Half, Own Half, Own 22, Lineout L/R)
+- [x] Templates (Scrum L/C/R, Lineout L/R, Kickoffs, 22m Drop, Blank)
 - [ ] Magic link auth (no Google, no password)
 - [ ] Save plays to My Plays
 - [ ] Team dashboard + publish to team playbook
@@ -157,3 +157,5 @@ Do NOT build these in V1:
 | 2026-05-21 | 02 — Canvas Core | Built | `src/canvas/` — 4-layer Konva stage (Pitch, Line, Node, Annotation), coordinate mapping (0–100 grid), responsive ResizeObserver. |
 | 2026-05-25 | 03 — Animation Engine | Built | `src/animation/` — `usePlayAnimation` hook, `AnimatedCanvas` (Konva tween control via node refs), `SpeedControl`, line draw-in animation (dash-offset), ball transfer at 50% of pass. Page Visibility API pause. |
 | 2026-05-25 | 04 — Play Viewer | Built | `src/viewer/` — `/moves/:slug` route. Desktop 5-col grid / mobile single-column. `ViewerCanvas` (responsive wrapper + play overlay), `ModeTabs`, `StepControls`, `OptionCards`, `InfoPanels` (accordion), `Badges`, `ShareButton`, `NotFoundPage`. Supabase data fetch with null guard. Auth gate UI stubbed — wired in Module 07. react-router-dom + Tailwind CSS v4 installed. **Viewer shows 404 until Supabase migrations are run.** |
+| 2026-05-26 | 05 — Play Editor | Built | `src/editor/` — `/editor` and `/editor/:playId` routes. `EditorPage`, `EditorCanvas`, `EditorHeader`, `ToolBar` (Run/Pass/Arrow/Circle/Text/Target/Eraser), `StepTabs`, `ZoneSelector`, `TemplateSelector`, `PlayerPanel`, `OptionSelector`, `PlayInfoEditor`, `PreviewModal`. `useEditorState` hook manages play JSON. Templates for Scrum L/C/R, Lineout L/R, Kickoffs, 22m Drop, Blank. |
+| 2026-05-26 | 06 — Play Library | Built | `src/library/` — `/moves` route replaces `/` as root. `LibraryPage` with Supabase data fetch + filters. `FilterBar` (difficulty/category chips, debounced search). `PlayCard` with hover overlay. `PlayThumbnail` (static Konva render of first step, ThumbnailErrorBoundary). `SkeletonCard` loading state. Three empty states: no results, no search match, library empty. 2-col mobile / 3-col desktop grid. `useDebounce` added to shared hooks. |
