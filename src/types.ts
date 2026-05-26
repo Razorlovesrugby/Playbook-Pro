@@ -41,6 +41,7 @@ export interface PlayerData {
 export interface LineData {
   id: string;
   from_player_id: string;
+  to_player_id?: string;  // set for pass lines where destination is another player
   to_x: number;     // 0–100 grid coordinate
   to_y: number;     // 0–100 grid coordinate
   option: OptionNumber;
@@ -66,6 +67,27 @@ export interface StepData {
   lines: LineData[];
   annotations: AnnotationData[];
   description?: string;
+}
+
+// ─── Info Sections (coaching notes embedded in play_data) ──────────────────
+
+export interface PlayInfo {
+  what_is_it?: string;
+  when_to_use?: string;
+  why_it_works?: string;
+  key_positions?: string;
+  options_alternatives?: string;
+  common_mistakes?: string;
+}
+
+// ─── Play ──────────────────────────────────────────────────────────────────
+
+export interface PlayData {
+  id: string;
+  title: string;
+  zone: FieldZone;
+  steps: StepData[];
+  info?: PlayInfo;
 }
 
 // ─── Zone Viewport ─────────────────────────────────────────────────────────
