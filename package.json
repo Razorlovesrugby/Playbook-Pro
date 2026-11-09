@@ -2,6 +2,7 @@
   "name": "playbook-pro",
   "private": true,
   "version": "0.1.0",
+  "description": "Rugby playbook platform: animated play designer, team playbooks and a public play library.",
   "type": "module",
   "scripts": {
     "dev": "vite",
